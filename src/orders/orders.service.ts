@@ -117,4 +117,8 @@ export class OrdersService {
   getAllOrders(): Order[] {
     return this.orders;
   }
+
+  getOrderById(id: string): Order | undefined {
+    return this.orders.find((o: Order) => o.id === id);
+  }
 }
