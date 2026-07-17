@@ -19,4 +19,9 @@ export class OrdersController {
     }
     return order;
   }
+
+  @Get('user/:userId')
+  getOrdersByUserId(@Param('userId') userId: string): Order[] {
+    return this.ordersService.getOrdersByUserId(userId);
+  }
 }
