@@ -121,4 +121,8 @@ export class OrdersService {
   getOrderById(id: string): Order | undefined {
     return this.orders.find((o: Order) => o.id === id);
   }
+
+  getOrdersByUserId(userId: string): Order[] {
+    return this.orders.filter((o) => o.userId === userId);
+  }
 }
