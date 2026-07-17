@@ -113,4 +113,8 @@ export class OrdersService {
       status: 'failed',
     },
   ];
+
+  getAllOrders(): Order[] {
+    return this.orders;
+  }
 }
