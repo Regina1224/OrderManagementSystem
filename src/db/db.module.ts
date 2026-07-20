@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { Order } from './entities/order.entity';
+import { Payment } from './entities/payment.entity';
 
 @Module({
   imports: [
@@ -17,7 +20,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [],
+        entities: [User, Order, Payment],
         // important! if it is true, TypePRM will change the DB schema according to the entities every starting time.
         synchronize: false,
       }),
