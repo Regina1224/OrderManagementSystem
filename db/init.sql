@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     dob DATE,
     admin_notes TEXT,
@@ -32,17 +33,17 @@ CREATE TABLE IF NOT EXISTS payments (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
-INSERT INTO users(first_name, last_name, password, dob, admin_notes) VALUES
-('John', 'Smith', 'hashed_pw_001', '1990-05-12', NULL),
-('Emma', 'Wilson', 'hashed_pw_002', '1988-11-03', 'VIP customer'),
-('Liam', 'Chen', 'hashed_pw_003', NULL, NULL),
-('Olivia', 'Brown', 'hashed_pw_004', '1995-02-27', NULL),
-('Noah', 'Davis', 'hashed_pw_005', NULL, 'Flagged for review'),
-('Ava', 'Martinez', 'hashed_pw_006', '1992-08-19', NULL),
-('William', 'Taylor', 'hashed_pw_007', NULL, NULL),
-('Sophia', 'Anderson', 'hashed_pw_008', '1993-12-01', NULL),
-('James', 'Thomas', 'hashed_pw_009', NULL, 'Newsletter opt-out'),
-('Isabella', 'Jackson', 'hashed_pw_010', '1991-07-08', NULL);
+INSERT INTO users (first_name, last_name, email, password, dob, admin_notes) VALUES
+('John', 'Smith', 'john.smith@example.com', 'hashed_pw_001', '1990-05-12', NULL),
+('Emma', 'Wilson', 'emma.wilson@example.com', 'hashed_pw_002', '1988-11-03', 'VIP customer'),
+('Liam', 'Chen', 'liam.chen@example.com', 'hashed_pw_003', NULL, NULL),
+('Olivia', 'Brown', 'olivia.brown@example.com', 'hashed_pw_004', '1995-02-27', NULL),
+('Noah', 'Davis', 'noah.davis@example.com', 'hashed_pw_005', NULL, 'Flagged for review'),
+('Ava', 'Martinez', 'ava.martinez@example.com', 'hashed_pw_006', '1992-08-19', NULL),
+('William', 'Taylor', 'william.taylor@example.com', 'hashed_pw_007', NULL, NULL),
+('Sophia', 'Anderson', 'sophia.anderson@example.com', 'hashed_pw_008', '1993-12-01', NULL),
+('James', 'Thomas', 'james.thomas@example.com', 'hashed_pw_009', NULL, 'Newsletter opt-out'),
+('Isabella', 'Jackson', 'isabella.jackson@example.com', 'hashed_pw_010', '1991-07-08', NULL);
 
 INSERT INTO orders(user_id, customer, category, product, quantity, status) VALUES
 (1,'John Smith', 'Electronics', 'Laptop', 1, 'pending'),
