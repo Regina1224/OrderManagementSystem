@@ -1,17 +1,25 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../db/entities/user.entity';
 import { RegisterDto } from './dto/register.dto';
 import * as bcrypt from 'bcrypt';
+import { LoginDto } from './dto/login.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
+  // ====== Register =====
   async register(dto: RegisterDto): Promise<{ message: string }> {
     // step 1: check if email has been registered
     const existingUser = await this.userRepository.findOne({
@@ -38,5 +46,26 @@ export class AuthService {
 
     // step 5: retuen success info
     return { message: 'User registered successfully' };
+  }
+
+  // ===== Login =====
+  async login(dto: LoginDto): Promise<string> {
+    const user = await this.userRepository.findOne({
+      where: { email: dto.email },
+    });
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const isPasswordValid = await bcrypt.compare(dto.password, user.password);
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+    const payload = {
+      id: user?.id,
+      userName: `${user.firstName} ${user.lastName}`,
+    };
+    return this.jwtService.sign(payload);
   }
 }
